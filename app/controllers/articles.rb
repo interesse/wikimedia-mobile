@@ -1,4 +1,5 @@
 class Articles < Application
+  provides :wml
   
   provides :html, :wml
   
@@ -15,10 +16,14 @@ class Articles < Application
   end
   
   def show
-    # Perform a normal search
-    @article = Article.new(current_server, current_name)
-    @article.fetch!
-    display @article, :search
+    if current_name == ""
+      redirect "/wiki/::Home"
+    else
+      # Perform a normal search
+      @article = Article.new(current_server, current_name)
+      @article.fetch!
+      display @article, :search
+    end
   end
   
   def file
@@ -28,7 +33,7 @@ class Articles < Application
   
  private 
   def current_name
-    @name ||= (params[:search] || params[:title]).gsub("_", " ") rescue nil
+    @name ||= (params[:search] || params[:title] || "").gsub("_", " ")
   end
   
   def cache_key
