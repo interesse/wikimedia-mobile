@@ -24,11 +24,11 @@ class Device
       else
         :webkit
       end
+    when /Nokia/, /WML/, /wApua/
+      :wml
     when /Firefox/, /Linux/ 
       # Think of some better tests for this...
       :desktop
-    when /Nokia/, /WML/
-      :wml
     else
       :html
     end
